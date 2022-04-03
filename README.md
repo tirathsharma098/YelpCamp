@@ -25,8 +25,8 @@ and many more.
 - [x] Drying code with EJS-Mate
 - [x] Implementing Error Handlers
 - [x] Validating Data with Joi
-- [ ] Adding Router to make application better
-- [ ] Adding some Cookies to make user interface much better.
+- [x] Adding Router to make application better
+- [x] Adding some Cookies to make user interface much better.
 - [ ] Some sessions for unregistered user should be Added to make it smooth.
 - [ ] Uploding an Image or Images in Your Camp
 - [ ] Sign in and Sign Up so that others can't make changes with your data
