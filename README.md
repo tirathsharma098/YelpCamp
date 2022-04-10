@@ -27,9 +27,9 @@ and many more.
 - [x] Validating Data with Joi
 - [x] Adding Router to make application better
 - [x] Adding some Cookies to make user interface much better.
-- [ ] Some sessions for unregistered user should be Added to make it smooth.
+- [x] Some sessions for unregistered user should be Added to make it smooth.
 - [ ] Uploding an Image or Images in Your Camp
-- [ ] Sign in and Sign Up so that others can't make changes with your data
+- [x] Sign in and Sign Up so that others can't make changes with your data
 - [ ] Adding location by using Maps for ease of convinience
 - [ ] Locate all camps in maps so that you can locate easely.
 -  and many more stay tuned by forking or by making this project stared.

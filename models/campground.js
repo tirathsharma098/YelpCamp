@@ -7,6 +7,10 @@ const CampgroundSchema = new Schema({
     image: String,
     price : Number,
     description : String,
+    author : {
+        type : Schema.Types.ObjectId,
+        ref : 'User'
+    },
     location : String,
     reviews : [
         {
@@ -19,9 +23,7 @@ const CampgroundSchema = new Schema({
 CampgroundSchema.post('findOneAndDelete', async function(camp){
     if(camp.reviews.length){
         const res = await Review.deleteMany({_id: {$in : camp.reviews}});
-        console.log(res);
-    }else{
-        console.log('Product not has any review even though deleting. Why?');
+        //console.log(res);
     }
 })
 
