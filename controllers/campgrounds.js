@@ -1,5 +1,5 @@
 const Campground = require('../models/campground');
-
+const {cloudinary} = require('../cloudinary/index');
 
 exports.index = async (req, res) =>{
     const campgrounds = await Campground.find({});
@@ -11,12 +11,12 @@ exports.newCampGet =  (req, res) => {
 }
 
 exports.newCampPost = async (req, res, next) => {
-    // if(!req.body.campground){
-    //     throw new ExpressError("Your Provided data is not Valid At All.", 400);
-    // }
+    console.log('Files: ', req.files, 'Body : ', req.body);
     const campground = new Campground(req.body.campground);
+    campground.images = req.files.map(f => ({url: f.path, filename: f.filename}));
     campground.author = req.user._id;
     await campground.save();
+    console.log('>> CAMPGROUND SAVED: ', campground);
     req.flash('success', 'Campground Added Successfully');
     res.redirect(`/campgrounds/${campground._id}`);
 }
@@ -41,7 +41,19 @@ exports.campUpdateGet = async(req,res)=>{
 }
 
 exports.campUpdatePut = async (req,res)=>{
-    const doc = await Campground.findByIdAndUpdate(req.params.id,{ ...req.body.campground})
+    const {id} = req.params;
+    console.log('>> body: ', req.body, '>> FILES RECIEVED: ', req.files);
+    const doc = await Campground.findByIdAndUpdate(id,{ ...req.body.campground});
+    const imgs = req.files.map(f => ({url: f.path, filename: f.filename}));
+    imgs.length && doc.images.push(...imgs);
+    await doc.save();
+    if(req.body.deleteImages){
+        for(let filename of req.body.deleteImages){
+            await cloudinary.uploader.destroy(filename);
+        }
+        await doc.updateOne({$pull: {images: {filename: {$in : req.body.deleteImages}}}})
+        console.log('After Deleted Images : ', doc)
+    }
     if(!doc){
         req.flash('error', "Campground Update Failed");
         return res.redirect('/campgrounds');

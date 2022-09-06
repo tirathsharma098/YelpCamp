@@ -3,7 +3,7 @@
     <div class="row">
         <h1 class="text-center">New Campground</h1>
         <div class="col-6 offset-3">
-            <form action="/campgrounds/<%= mainData._id %>?_method=PUT" method="post" novalidate class="validated-form">
+            <form action="/campgrounds/<%= mainData._id %>?_method=PUT" method="post" novalidate class="validated-form" enctype="multipart/form-data">
       
             <div class="mb-3">
               <label class="form-label" for="title">Title : </label>
@@ -16,14 +16,6 @@
             <div class="mb-3">
               <label class="form-label" for="location">Location : </label>
               <input class="form-control" type="text" name="campground[location]" id="location" value="<%= mainData.location %>" required/>
-              <div class="valid-feedback">
-                  Now Looks Good!
-              </div>
-            </div>
-      
-            <div class="mb-3">
-              <label class="form-label" for="image">Image Url : </label>
-              <input class="form-control" type="text" name="campground[image]" id="image" value="<%= mainData.image %>" required/>
               <div class="valid-feedback">
                   Now Looks Good!
               </div>
@@ -47,7 +39,19 @@
                   Now Looks Good!
               </div>
             </div>
-      
+            <div class="mb-3">
+              <label for="image" class="form-label">Choose Image(s)...</label>
+              <input class="form-control" type="file" id="image" name="image" multiple>
+            </div>
+            <div class="mb-3">
+              <% mainData.images.forEach((img, i)=> { %>
+                <img src="<%=img.thumbnail%>" class="img-thumbnail" alt="">
+                <div class="form-check-inline">
+                  <input type="checkbox" name="deleteImages[]" value="<%=img.filename%>" id="image-<%i%>">
+                </div>
+                <label for="image-<%i%>">Delete?</label>
+              <% }) %>
+            </div>
             <div class="mb-3">
               <button class="btn btn-info offset-5">Edit Campground</button>
             </div>
